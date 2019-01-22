@@ -28,7 +28,7 @@ export default class Welcome extends Component {
                 preferCanvas={true}
                 zoom={13}
                 ref='map'
-                center={[53.8008, -1.5491]}
+                center={[51.9545, 7.622361]}
                 onclick={(e) => {
                     this.setState({ touchReceived: true })
                 }}
@@ -37,7 +37,7 @@ export default class Welcome extends Component {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                <GeoJSONComponent fetchURL="http://localhost:8000/api/uol" />
+                <GeoJSONComponent fetchURL="http://localhost:8000/api/moveability" />
                 {/* #ADD_COMPONENT */}
             </Map>
         );
