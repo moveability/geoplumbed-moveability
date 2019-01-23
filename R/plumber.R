@@ -30,13 +30,22 @@ swagger <- function(req, res){
 }
 
 # Below is part of Welcome endpoint:
+library(geoplumber)
+uol <- rbind(uni_point, uni_poly)
+uol <- geojsonsf::sf_geojson(uol, factors_as_string=FALSE)
 #' Welcome endpoint. Feel free to remove, relevant line in Welcome.js (line 41)
-#' @get /api/moveability
-moveability <- function(res, grow){
-  ms <- readRDS("../moveability/data/moveability-ms.Rds")
-  ms_geojson <- geojsonsf::df_geojson(ms, lon = "x", lat = "y")
-  res$body <- ms_geojson
-  return (res)
+#' @get /api/uol
+uol_geojson <- function(res, grow){
+  if(!missing(grow) && !is.na(as.numeric(grow))) {
+    # add a buffer around poly for now
+    # TODO: further checks for value validity.
+    poly <- sf::st_buffer(uni_poly, as.numeric(grow))
+    poly <- geojsonsf::sf_geojson(poly)
+    res$body <- poly # geojson
+    return (res)
+  }
+  res$body <- uol
+  res
 }
 
 #' Tell plumber where our public facing directory is to SERVE.
